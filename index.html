@@ -464,7 +464,7 @@
     <div class="brand-lockup"><img src="https://cdn.webshopapp.com/shops/55989/themes/181883/v/2790362/assets/logo.png" alt="Kofferstunter.nl"></div>
     <div class="speedlines"><i></i><i></i><i></i></div>
     <h1 class="display">Vind in 5 stappen jouw perfecte koffer</h1>
-    <p>Geen eindeloos filteren &mdash; beantwoord een paar korte vragen en we laten meteen een passend advies zien.</p>
+    <p>Geen eindeloos filteren. Beantwoord een paar korte vragen en we laten meteen een passend advies zien.</p>
   </div>
 
   <div class="stage" id="stage">
@@ -476,7 +476,7 @@
         Koffer-keuzehulp
       </div>
       <h2>Welke koffer past bij jouw reis?</h2>
-      <p>Vijf korte vragen over je reis, je bagage en je voorkeuren &mdash; klaar in minder dan een minuut.</p>
+      <p>Vijf korte vragen over je reis, je bagage en je voorkeuren, klaar in minder dan een minuut.</p>
       <div class="cover-steps">
         <div class="cover-step"><div class="n">1</div><span>Reistype</span></div>
         <div class="cover-step"><div class="n">2</div><span>Materiaal</span></div>
@@ -574,7 +574,7 @@
       ]
     },
     {
-      key:"vorm", title:"Heb je een voorkeur voor het materiaal?", sub:"Puur een kwestie van smaak — beide zijn stevig genoeg om mee te reizen.",
+      key:"vorm", title:"Heb je een voorkeur voor het materiaal?", sub:"Puur een kwestie van smaak. Beide zijn stevig genoeg om mee te reizen.",
       type:"cards",
       options:[
         {v:"hard", icon:"shield", label:"Hardschaal koffer", note:"Stevig en regenbestendig"},
@@ -717,7 +717,7 @@
         var pressed = current.indexOf(opt.v)>-1;
         html+='<button type="button" class="pill" data-v="'+opt.v+'" aria-pressed="'+pressed+'">'+icon(opt.icon)+opt.label+'</button>';
       });
-      html+='</div><p class="pill-hint">Kies er <b>1 of 2</b> — dat helpt ons je advies te verfijnen.</p>';
+      html+='</div><p class="pill-hint">Kies er <b>1 of 2</b>, dat helpt ons je advies te verfijnen.</p>';
       elBody.innerHTML=html;
       elBody.querySelectorAll(".pill").forEach(function(p){
         p.addEventListener("click", function(){
