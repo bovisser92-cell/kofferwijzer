@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kofferwijzer</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap">
 <style>
@@ -271,6 +276,7 @@
     border:1.5px solid transparent;
     cursor:pointer;
     display:inline-flex;align-items:center;gap:8px;
+    text-decoration:none;
     transition:background .15s ease, border-color .15s ease, color .15s ease, transform .1s ease, opacity .15s ease;
   }
   .btn:active{transform:translateY(1px);}
@@ -443,8 +449,10 @@
     .panel{flex:1;padding:24px 20px;}
     .card-grid{grid-template-columns:1fr 1fr;gap:10px;}
     .cover{padding:30px 20px;}
-    .cover-steps{gap:14px;}
-    .cover-step{width:70px;}
+    .cover-steps{gap:8px;flex-wrap:nowrap;}
+    .cover-step{width:58px;}
+    .cover-step .n{width:30px;height:30px;font-size:12px;}
+    .cover-step span{font-size:10.5px;}
     .prod-grid{grid-template-columns:1fr;padding:0 20px;}
     .result-head{padding:24px 20px 4px;}
     .advice{margin:0 20px 20px;}
@@ -455,6 +463,9 @@
 
   [hidden]{display:none!important;}
 </style>
+</head>
+<body>
+
 
 <div class="wrap">
   <div class="lede">
@@ -575,7 +586,7 @@
       ]
     },
     {
-      key:"vorm", title:"Heb je een voorkeur voor het materiaal?", sub:"Puur een kwestie van smaak — beide zijn stevig genoeg om op te reizen.",
+      key:"vorm", title:"Heb je een voorkeur voor het materiaal?", sub:"Puur een kwestie van smaak — beide zijn stevig genoeg om mee te reizen.",
       type:"cards",
       options:[
         {v:"hard", icon:"shield", label:"Hardschaal koffer", note:"Stevig en regenbestendig"},
@@ -892,3 +903,6 @@
 
 })();
 </script>
+
+</body>
+</html>
