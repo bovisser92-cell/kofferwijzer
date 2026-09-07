@@ -558,7 +558,9 @@
     chicago:{ name:"Chicago Koffer Groot Taupe", brand:"Enrico Benetti", price:99.00, oldPrice:139.95, specs:[["Inhoud","96 L"],["Materiaal","Hardschaal"]], url:"https://www.kofferstunter.nl/chicago-koffer-groot-taupe-96-liter-75x50x27.html", img:"https://cdn.webshopapp.com/shops/55989/files/486927643/enrico-benetti-chicago-koffer-groot-taupe-96-liter.jpg" },
     superlight:{ name:"Super Light Handbagage Koffer Zwart", brand:"Decent", price:59.00, specs:[["Materiaal","Stof, lichtgewicht"]], url:"https://www.kofferstunter.nl/super-light-handbagage-koffer-zwart-150265110.html", img:"https://cdn.webshopapp.com/shops/55989/files/452924857/decent-super-light-handbagage-koffer-zwart-50x35x2.jpg" },
     wieltas:{ name:"Sport-Line Trolley Wieltas", brand:"Decent", price:79.00, specs:[["Inhoud","95 L"],["Materiaal","Flexibele tas"]], url:"https://www.kofferstunter.nl/decent-sport-line-trolleytas-grijs-zwart-95l-78x40.html", img:"https://cdn.webshopapp.com/shops/55989/files/91339991/decent-sport-line-trolley-double-loader-grijs-zwar.jpg" },
-    vacuum:{ name:"Underseater Rugzak met Vacuümvak", brand:"Kofferstunter", price:99.00, oldPrice:139.95, specs:[["Inhoud","60 L"],["Slot","TSA-slot"],["Extra","Vacuümvak"]], url:"https://www.kofferstunter.nl/underseater-lichtgewicht-zwarte-rugzak-met-vacuum.html", img:"https://cdn.webshopapp.com/shops/55989/files/495239540/underseater-zwarte-lichtgewicht-rugzak-met-vacuuem.jpg" }
+    vacuum:{ name:"Underseater Rugzak met Vacuümvak", brand:"Kofferstunter", price:99.00, oldPrice:139.95, specs:[["Inhoud","60 L"],["Slot","TSA-slot"],["Extra","Vacuümvak"]], url:"https://www.kofferstunter.nl/underseater-lichtgewicht-zwarte-rugzak-met-vacuum.html", img:"https://cdn.webshopapp.com/shops/55989/files/495239540/underseater-zwarte-lichtgewicht-rugzak-met-vacuuem.jpg" },
+    stockholmUnderseater:{ name:"Stockholm Underseater Wieltas Zwart", brand:"Enrico Benetti", price:59.95, specs:[["Formaat","40x30x20 cm"],["Inhoud","24 L"],["Materiaal","Waterafstotend polyester"]], url:"https://www.kofferstunter.nl/enrico-benetti-stockholm-underseater-zwart.html", img:"https://cdn.webshopapp.com/shops/55989/files/500200984/enrico-benetti-enrico-benetti-stockholm-underseate.jpg" },
+    stockholmReistas:{ name:"Stockholm Handbagage Reistas Zwart", brand:"Enrico Benetti", price:69.95, specs:[["Formaat","55x35x20 cm"],["Inhoud","38,5 L"],["Materiaal","Waterafstotend polyester"]], url:"https://www.kofferstunter.nl/enrico-benetti-stockholm-reistas-zwart.html", img:"https://cdn.webshopapp.com/shops/55989/files/500387081/enrico-benetti-enrico-benetti-stockholm-handbagage.jpg" }
   };
 
   var STEPS = [
@@ -746,14 +748,35 @@
     // een losstaand goedkoop artikel uit een heel andere categorie te tonen.
     var matchKey, pool;
     if(a.bagage==="onder-stoel"){
-      matchKey="underseater"; pool=["underseater","handbagage","superlight"];
+      // Strengste fysieke eis: moet onder de stoel passen, dus altijd underseater-formaat.
+      matchKey="underseater"; pool=["underseater","stockholmUnderseater","handbagage"];
     } else if(a.reis==="gezin"){
       matchKey="kofferset"; pool=["kofferset","groot","chicago"];
+    } else if(a.bagage==="handbagage"){
+      // Expliciete keuze voor handbagage is een harde eis: mag NOOIT uitgroeien tot een
+      // grote koffer, ook niet bij een lange reisduur (dat was de gemelde fout — de
+      // reisduur overschreef stilzwijgend deze keuze). De vacuümrugzak past hier wel
+      // (compressievak, geschikt als handbagage) maar niet bij "onder de stoel" hierboven.
+      if(a.vorm==="wieltas"){
+        matchKey="stockholmReistas"; pool=["stockholmReistas","superlight","vacuum"];
+      } else if(a.vorm==="zacht"){
+        matchKey="superlight"; pool=["superlight","stockholmReistas","handbagage"];
+      } else {
+        matchKey="handbagage"; pool=["handbagage","superlight","vacuum"];
+      }
     } else if(a.vorm==="wieltas"){
-      matchKey="wieltas"; pool=["wieltas","superlight","chicago"];
+      matchKey="wieltas"; pool=["wieltas","stockholmUnderseater","stockholmReistas"];
+    } else if(a.vorm==="zacht"){
+      // De stoffen/zachte opties in het assortiment: superlight en stockholmReistas (klein/
+      // handbagageformaat) of wieltas (95L, voor grotere reizen). Dit moet ALTIJD leidend zijn
+      // boven de reisduur, anders krijgt de klant alsnog een hardschaal-koffer als hoofdadvies.
+      if(a.duur==="1-3"){
+        matchKey="superlight"; pool=["superlight","stockholmReistas","underseater"];
+      } else {
+        matchKey="wieltas"; pool=["wieltas","stockholmReistas","chicago"];
+      }
     } else if(a.duur==="1-3"){
-      matchKey = (a.vorm==="zacht") ? "superlight" : "handbagage";
-      pool=["handbagage","superlight","underseater"];
+      matchKey="handbagage"; pool=["handbagage","superlight","underseater"];
     } else if(a.duur==="4-7"){
       matchKey="medium"; pool=["medium","chicago","groot"];
     } else {
@@ -804,7 +827,8 @@
     var categoryLabel = {
       handbagage:"handbagage koffer", medium:"medium koffer", groot:"grote koffer",
       underseater:"underseater", kofferset:"kofferset", chicago:"grote koffer",
-      superlight:"lichtgewicht koffer", wieltas:"wieltas", vacuum:"rugzak met vacuümvak"
+      superlight:"lichtgewicht koffer", wieltas:"wieltas", vacuum:"rugzak met vacuümvak",
+      stockholmUnderseater:"underseater wieltas", stockholmReistas:"handbagage reistas"
     }[rec.matchKey];
 
     var vormTxt = (a.vorm && a.vorm!=="geen-voorkeur") ? ", bij voorkeur "+LABELS.vorm[a.vorm] : "";
@@ -836,7 +860,9 @@
       chicago:"https://www.kofferstunter.nl/koffers/grote-koffers/",
       superlight:"https://www.kofferstunter.nl/koffers/stoffen-koffers/",
       wieltas:"https://www.kofferstunter.nl/tags/wieltas/",
-      vacuum:"https://www.kofferstunter.nl/vacuum-rugzak/"
+      vacuum:"https://www.kofferstunter.nl/vacuum-rugzak/",
+      stockholmUnderseater:"https://www.kofferstunter.nl/underseaters/",
+      stockholmReistas:"https://www.kofferstunter.nl/koffers/handbagage-koffers/"
     };
 
     elResult.innerHTML =
