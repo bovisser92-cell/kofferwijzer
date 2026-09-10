@@ -4,6 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kofferwijzer</title>
+<script>
+(function(){
+  // Alleen echte productie-tracking op het live gehoste domein, niet bij lokale previews.
+  if(location.hostname !== 'bovisser92-cell.github.io') return;
+  var s=document.createElement('script');
+  s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id=G-KDGYVVYLTL';
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag('js', new Date());
+  gtag('config', 'G-KDGYVVYLTL');
+})();
+</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap">
 <style>
   :root{
@@ -650,6 +664,7 @@
   });
 
   document.getElementById("btn-start").addEventListener("click", function(){
+    if(window.gtag) gtag("event", "kofferwijzer_gestart");
     elCover.hidden=true; elQuiz.hidden=false;
     renderStep();
   });
@@ -818,6 +833,7 @@
     var a=state.answers;
     var rec=recommend(a);
     var match=PRODUCTS[rec.matchKey];
+    if(window.gtag) gtag("event", "kofferwijzer_voltooid", { advies_koffer: rec.matchKey });
 
     var voorkeurTxt = a.voorkeur.length
       ? "Je gaf aan dat "+a.voorkeur.map(function(v){return LABELS.voorkeur[v];}).join(" en ")+" belangrijk "+(a.voorkeur.length>1?"zijn":"is")+" voor je. "
